@@ -1,28 +1,11 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class Bullet : MonoBehaviour
 {
-    public float lifeTime = 10f;
-    private float timer;
-
     private bool hasScored = false;
 
-    void OnEnable()
-    {
-        timer = 0f;
-    }
-
-    void Update()
-    {
-        timer += Time.deltaTime;
-        if (timer >= lifeTime)
-        {
-            ResetBullet();
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (hasScored) return;
 
@@ -31,15 +14,21 @@ public class Bullet : MonoBehaviour
             string partName = collision.collider.name;
             int points = ScoreManager.Instance.GetPointsForPart(partName);
             ScoreManager.Instance.RegisterHit(points, partName);
+            hasScored = true;
         }
 
-        ResetBullet();
+        StartCoroutine(DeactivateAfterSeconds(1f));
     }
 
-    void ResetBullet()
+    IEnumerator DeactivateAfterSeconds(float seconds)
     {
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        transform.position = ScoreManager.Instance.magazine.position;
+        yield return new WaitForSeconds(seconds);
+
+        // Reset bullet
+        hasScored = false;
         gameObject.SetActive(false);
+        transform.position = ScoreManager.Instance.magazine.position;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }
 }

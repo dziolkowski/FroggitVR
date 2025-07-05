@@ -33,7 +33,7 @@ public class ScoreManager : MonoBehaviour
     void Update()
     {
         // jesli gra się zakonczyla i gracz nacisnie "1" na klawiaturze numerycznej – zrestartuj scene
-        if (gameOver && Input.GetKeyDown(KeyCode.Keypad1))
+        if (gameOver && Input.GetKeyDown(KeyCode.LeftBracket))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
@@ -74,9 +74,9 @@ public class ScoreManager : MonoBehaviour
         switch (part)
         {
             case "Head": return 10;
-            case "Torso": return 5;
-            case "Arm": return 3;
-            case "Leg": return 3;
+            case "Torso": return 3;
+            case "Arm": return 5;
+            case "Leg": return 5;
             default: return 1;
         }
     }

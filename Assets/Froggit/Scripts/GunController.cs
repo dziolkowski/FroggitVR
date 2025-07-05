@@ -25,12 +25,11 @@ public class GunController : MonoBehaviour
         if (bullet == null) return;
 
         bullet.transform.position = shootPoint.position;
-        bullet.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+        bullet.transform.rotation = Quaternion.LookRotation(shootPoint.forward);
         bullet.SetActive(true);
 
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
-        Vector3 cameraForward = Camera.main.transform.forward;
-        rb.velocity = cameraForward.normalized * bulletSpeed;
+        rb.velocity = shootPoint.forward.normalized * bulletSpeed;
 
         ammoCount--;
         shots++;

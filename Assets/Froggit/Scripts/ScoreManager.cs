@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -22,9 +23,20 @@ public class ScoreManager : MonoBehaviour
     private Dictionary<string, int> hitPointsByPart = new Dictionary<string, int>();
     private Dictionary<string, int> hitCountByPart = new Dictionary<string, int>();
 
+    private bool gameOver = false; //flaga konca gry
+
     void Awake()
     {
         Instance = this;
+    }
+
+    void Update()
+    {
+        // jesli gra się zakonczyla i gracz nacisnie "1" na klawiaturze numerycznej – zrestartuj scene
+        if (gameOver && Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     public void RegisterHit(int points, string partName)
@@ -84,5 +96,7 @@ public class ScoreManager : MonoBehaviour
             int hitCount = hitCountByPart.ContainsKey(part) ? hitCountByPart[part] : 0;
             hitLogText.text += $"{part}: {totalPoints} pts ({hitCount} hit{(hitCount > 1 ? "s" : "")})\n";
         }
+
+        gameOver = true; 
     }
 }

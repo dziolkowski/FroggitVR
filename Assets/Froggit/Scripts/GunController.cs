@@ -11,15 +11,16 @@ public class GunController : MonoBehaviour
     private int shots = 0;
     private bool isBusy = false;
 
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !isBusy && ammoCount > 0)
-        {
-            Shoot();
-        }
+        //if (Input.GetMouseButtonDown(0) && !isBusy && ammoCount > 0)
+        //{
+        //    Shoot();
+        //}
     }
 
-    void Shoot()
+    public void Shoot()
     {
         GameObject bullet = bulletPool.GetBullet();
         if (bullet == null) return;
